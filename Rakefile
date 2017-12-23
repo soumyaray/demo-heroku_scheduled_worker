@@ -8,11 +8,10 @@ namespace :docker do
   VERSION = '0.1.0'
   CONFIG_FILE = 'config.yml'
 
-  desc 'Run the Docker image as a worker'
+  desc 'Run the local Docker container as a worker'
   task :run do
     puts "\nRUNNING WORKER WITH LOCAL CONTEXT"
-    sh "docker run -e --rm -it " \
-       "-v \"$PWD\":/worker -w /worker " \
+    sh 'docker run -e --rm -it -v \"$PWD\":/worker -w /worker ' \
        "#{USERNAME}/#{IMAGE}:#{VERSION} ruby #{WORKER}"
   end
 
@@ -28,15 +27,3 @@ namespace :docker do
     sh "docker push #{USERNAME}/#{IMAGE}:#{VERSION}"
   end
 end
-
-# namespace :iron do
-#   desc 'Register image as a worker on iron.io'
-#   task :register do
-#     puts "\nREGISTERING WORKER IMAGE WITH IRON.IO"
-#     sh "iron register #{USERNAME}/#{IMAGE}:#{VERSION}"
-#   end
-# end
-
-# # NOTE: only need to register worker image once (re-registering updates iron.io revision number)
-# desc 'Deploy by building and pushing Docker image, registering with iron.io'
-# task deploy: ['docker:build', 'docker:push', 'iron:register']
