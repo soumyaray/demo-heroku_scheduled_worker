@@ -1,0 +1,13 @@
+FROM soumyaray/ruby-http:2.4.3
+
+WORKDIR /worker
+
+ADD hello_worker.rb .
+
+CMD ruby hello_worker.rb
+
+# build image with:
+#   docker build --rm --force-rm -t soumyaray/hello_worker:0.1.0 .
+
+# push to docker hub with:
+#   docker push soumyaray/hello_worker:0.1.0
